@@ -34,6 +34,13 @@ module Engine
             [@game.union_bank]
           end
 
+          def can_split_for(entity)
+            return [] unless entity == @game.company_by_id('UB').owner
+            return [] if @round.bank_bought
+
+            [@game.union_bank]
+          end
+
           # This makes sure we don't auto pass if the player is allowed to
           # exchange a share
           def can_exchange_any?(entity)

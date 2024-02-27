@@ -9,9 +9,11 @@ module View
 
       needs :corporation
 
-      def render
-        entity = @game.current_entity
+      def render_split_for_others(step)
+        return nil unless step.respond_to?(:can_split_for)
+      end
 
+      def render_split(entity)
         # Split handler
         handler = lambda do
           process_action(Engine::Action::Split.new(entity, corporation: @corporation))
@@ -28,6 +30,18 @@ module View
 
         # Split button
         h('button.small', props, 'Split')
+      end
+
+      def render
+        step = @game.round.active_step
+        entity = @game.current_entity
+
+        children = []
+        children << render_split(entity)
+        children << render_split_for_others(step)
+        children = children.compact
+
+        h(:div, children)
       end
     end
   end
