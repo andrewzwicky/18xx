@@ -35,10 +35,8 @@ module Engine
           end
 
           def can_split_for(entity)
-            return [] unless entity == @game.company_by_id('UB').owner
-            return [] if @round.bank_bought
-
-            [@game.union_bank]
+            LOGGER.info('can_split_for')
+            return can_buy_for(entity)
           end
 
           # This makes sure we don't auto pass if the player is allowed to
